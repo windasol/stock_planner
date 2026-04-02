@@ -13,34 +13,8 @@
 - Frontend conventions: `docs/front.md`
 
 ## Project Structure
-```
-stock_planner/
-├── backend/                    # Spring Boot (port 8080)
-│   └── src/main/java/com/stockplanner/
-│       ├── config/             # WebConfig, RestTemplateConfig
-│       ├── controller/         # REST Controllers (/api/*)
-│       ├── exception/          # GlobalExceptionHandler, custom exceptions
-│       ├── model/
-│       │   ├── dto/            # Request/Response DTOs
-│       │   ├── entity/         # JPA Entities
-│       │   └── enums/          # Market, ChartInterval
-│       ├── repository/         # Spring Data JPA Repositories
-│       └── service/
-│           └── external/       # StockApiClient interface + implementations
-├── frontend/                   # React + Vite (port 5173, proxy /api -> 8080)
-│   └── src/
-│       ├── api/                # Axios API modules
-│       ├── components/
-│       │   ├── charts/         # CandlestickChart, VolumeChart, ChartControls
-│       │   ├── common/         # Navbar, SearchBar, LoadingSpinner
-│       │   ├── portfolio/      # PortfolioSummary, HoldingList, AddHoldingModal, PortfolioChart
-│       │   └── stock/          # StockInfo, StockCard, StockSearchResults
-│       ├── hooks/              # React Query custom hooks
-│       ├── pages/              # Page components (5 pages)
-│       ├── types/              # TypeScript interfaces
-│       └── utils/              # formatters, constants
-└── docker-compose.yml          # PostgreSQL container
-```
+- `backend/src/main/java/com/stockplanner/`: config, controller, exception, model/{dto,entity,enums}, repository, service/external
+- `frontend/src/`: api, components/{charts,common,portfolio,stock}, hooks, pages(5개), types, utils
 
 ## API Endpoints
 | Method | Path | Description |
@@ -59,10 +33,7 @@ stock_planner/
 ## Caching Strategy
 3-tier: Caffeine (5min) -> PostgreSQL (persistent) -> React Query (5min staleTime)
 
-## Implementation Status
-- [x] Phase 1: Project setup (Spring Boot + React + Docker + Git)
-- [x] Phase 2: Backend full (Entity, Repository, Service, Controller, API clients)
-- [x] Phase 3: Frontend components (charts, search, stock detail, portfolio components)
+## Implementation Status (남은 작업)
 - [ ] Phase 4: PortfolioPage.tsx 조합 (컴포넌트는 완성, 페이지 미연결)
 - [ ] Phase 5: WatchlistPage.tsx + DashboardPage.tsx 구현
 - [ ] Phase 6: ErrorBoundary, 반응형, 테스트
@@ -79,6 +50,10 @@ cd frontend && npm run build      # production build
 # Database
 docker-compose up -d              # PostgreSQL (port 5432)
 ```
+
+## Claude Code 사용 팁 (토큰 절약)
+- 작업 전환 시 `/clear`, 대화가 길어지면 `/compact`
+- 파일 지정 시 경로를 직접 명시: `frontend/src/pages/PortfolioPage.tsx`
 
 ## Key Conventions
 - Korean UI text throughout (한국어 인터페이스)
