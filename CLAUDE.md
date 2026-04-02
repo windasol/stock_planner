@@ -51,7 +51,24 @@ cd frontend && npm run build      # production build
 docker-compose up -d              # PostgreSQL (port 5432)
 ```
 
-## Claude Code 사용 팁 (토큰 절약)
+## Claude Code 토큰 절약 전략
+
+### 모델 선택 (기본값: Haiku)
+프로젝트 기본 모델은 **Haiku** (`.claude/settings.json`). 아래 기준으로 전환:
+
+| 작업 | 모델 | 예시 |
+|------|------|------|
+| 단순 편집, 1~2파일 수정, 오타 수정, 변수명 변경 | **Haiku** (기본) | CSS 수정, 텍스트 변경, 단순 버그픽스 |
+| 멀티파일 리팩터링, 신규 기능 구현, 아키텍처 결정 | **Sonnet** (`/model` 전환) | 새 페이지 구현, API 연동, 복잡한 로직 |
+
+Sonnet이 필요한 작업 시작 전: `/model` 명령으로 전환 → 완료 후 Haiku로 복귀.
+
+### Edit vs Write 규칙
+- **Edit 우선**: 기존 파일 수정은 항상 Edit 사용 (diff만 전송, 토큰 절약)
+- **Write는 신규 파일만**: 완전히 새 파일을 만들 때만 사용
+- 파일의 일부만 바꿀 때는 절대 Write로 전체 재작성 금지
+
+### 기타
 - 작업 전환 시 `/clear`, 대화가 길어지면 `/compact`
 - 파일 지정 시 경로를 직접 명시: `frontend/src/pages/PortfolioPage.tsx`
 
