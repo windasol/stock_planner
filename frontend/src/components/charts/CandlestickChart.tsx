@@ -1,7 +1,8 @@
 import { useEffect, useRef } from 'react';
-import { createChart, ColorType, IChartApi } from 'lightweight-charts';
+import { createChart, ColorType, CandlestickSeries } from 'lightweight-charts';
+import type { IChartApi } from 'lightweight-charts';
 import { Box } from '@mui/material';
-import { CandlestickData } from '../../types/chart';
+import type { CandlestickData } from '../../types/chart';
 
 interface CandlestickChartProps {
   data: CandlestickData[];
@@ -38,7 +39,7 @@ export default function CandlestickChart({ data, height = 400 }: CandlestickChar
       },
     });
 
-    const candlestickSeries = chart.addCandlestickSeries({
+    const candlestickSeries = chart.addSeries(CandlestickSeries, {
       upColor: '#ff1744',
       downColor: '#2979ff',
       borderUpColor: '#ff1744',

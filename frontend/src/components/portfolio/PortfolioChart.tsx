@@ -1,6 +1,6 @@
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import { Paper, Typography } from '@mui/material';
-import { Holding } from '../../types/portfolio';
+import type { Holding } from '../../types/portfolio';
 
 const COLORS = ['#e94560', '#0a1931', '#185adb', '#ffc93c', '#ff6b6b', '#6c5ce7', '#00cec9', '#fd79a8'];
 
@@ -29,13 +29,15 @@ export default function PortfolioChart({ holdings }: PortfolioChartProps) {
             cy="50%"
             outerRadius={100}
             dataKey="value"
-            label={({ name, percent }) => `${name} ${(percent * 100).toFixed(1)}%`}
+            label={({ name, percent }) =>
+              `${name ?? ''} ${(((percent as number | undefined) ?? 0) * 100).toFixed(1)}%`
+            }
           >
             {data.map((_, index) => (
               <Cell key={index} fill={COLORS[index % COLORS.length]} />
             ))}
           </Pie>
-          <Tooltip formatter={(value: number) => `$${value.toLocaleString()}`} />
+          <Tooltip formatter={(value) => `$${Number(value ?? 0).toLocaleString()}`} />
           <Legend />
         </PieChart>
       </ResponsiveContainer>

@@ -1,5 +1,5 @@
 import axiosInstance from './axiosInstance';
-import { WatchlistItem, AddWatchlistRequest } from '../types/watchlist';
+import type { WatchlistItem, AddWatchlistRequest } from '../types/watchlist';
 
 export const watchlistApi = {
   getAll: async () => {

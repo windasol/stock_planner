@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { watchlistApi } from '../api/watchlistApi';
-import { AddWatchlistRequest } from '../types/watchlist';
+import type { AddWatchlistRequest } from '../types/watchlist';
 import { QUERY_STALE_TIME } from '../utils/constants';
 
 export function useWatchlist() {

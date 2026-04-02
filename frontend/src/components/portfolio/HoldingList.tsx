@@ -4,7 +4,7 @@ import {
 } from '@mui/material';
 import { Delete } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
-import { Holding } from '../../types/portfolio';
+import type { Holding } from '../../types/portfolio';
 import { formatCurrency, formatPercent } from '../../utils/formatters';
 
 interface HoldingListProps {

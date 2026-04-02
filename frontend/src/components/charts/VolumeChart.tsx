@@ -1,7 +1,8 @@
 import { useEffect, useRef } from 'react';
-import { createChart, ColorType, IChartApi } from 'lightweight-charts';
+import { createChart, ColorType, HistogramSeries } from 'lightweight-charts';
+import type { IChartApi } from 'lightweight-charts';
 import { Box } from '@mui/material';
-import { CandlestickData } from '../../types/chart';
+import type { CandlestickData } from '../../types/chart';
 
 interface VolumeChartProps {
   data: CandlestickData[];
@@ -36,7 +37,7 @@ export default function VolumeChart({ data, height = 120 }: VolumeChartProps) {
       color: i > 0 && d.close >= data[i - 1].close ? 'rgba(255, 23, 68, 0.4)' : 'rgba(41, 121, 255, 0.4)',
     }));
 
-    const volumeSeries = chart.addHistogramSeries({
+    const volumeSeries = chart.addSeries(HistogramSeries, {
       priceFormat: { type: 'volume' },
       priceScaleId: '',
     });

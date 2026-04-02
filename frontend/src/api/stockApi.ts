@@ -1,6 +1,6 @@
 import axiosInstance from './axiosInstance';
-import { Stock, StockSearchResult, StockFinancials } from '../types/stock';
-import { CandlestickData } from '../types/chart';
+import type { Stock, StockSearchResult, StockFinancials } from '../types/stock';
+import type { CandlestickData } from '../types/chart';
 
 export const stockApi = {
   search: async (query: string, market?: string, page = 0) => {

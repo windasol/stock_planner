@@ -1,4 +1,4 @@
-import { Stock } from './stock';
+import type { Stock } from './stock';
 
 export interface Portfolio {
   id: number;

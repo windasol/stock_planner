@@ -3,16 +3,17 @@ import {
   Dialog, DialogTitle, DialogContent, DialogActions,
   TextField, Button, ToggleButton, ToggleButtonGroup, Box,
 } from '@mui/material';
+import type { AddHoldingRequest } from '../../types/portfolio';
 
 interface AddHoldingModalProps {
   open: boolean;
   onClose: () => void;
-  onSubmit: (data: { ticker: string; market: string; quantity: number; avgBuyPrice: number; boughtAt: string }) => void;
+  onSubmit: (data: AddHoldingRequest) => void;
 }
 
 export default function AddHoldingModal({ open, onClose, onSubmit }: AddHoldingModalProps) {
   const [ticker, setTicker] = useState('');
-  const [market, setMarket] = useState('US');
+  const [market, setMarket] = useState<'US' | 'KR'>('US');
   const [quantity, setQuantity] = useState('');
   const [avgBuyPrice, setAvgBuyPrice] = useState('');
   const [boughtAt, setBoughtAt] = useState('');

@@ -1,5 +1,5 @@
 import axiosInstance from './axiosInstance';
-import { Portfolio, CreatePortfolioRequest, AddHoldingRequest } from '../types/portfolio';
+import type { Portfolio, CreatePortfolioRequest, AddHoldingRequest } from '../types/portfolio';
 
 export const portfolioApi = {
   getAll: async () => {

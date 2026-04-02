@@ -7,7 +7,7 @@ import VolumeChart from '../components/charts/VolumeChart';
 import ChartControls from '../components/charts/ChartControls';
 import LoadingSpinner from '../components/common/LoadingSpinner';
 import { useStock, useChartData } from '../hooks/useStock';
-import { ChartInterval } from '../types/chart';
+import type { ChartInterval } from '../types/chart';
 import dayjs from 'dayjs';
 
 function getDateRange(interval: ChartInterval): { from: string; to: string } {
