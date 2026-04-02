@@ -1,0 +1,34 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/stock_planner
+    username: postgres
+    password: ${DB_PASSWORD:stockplanner123}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: false
+  cache:
+    type: caffeine
+    caffeine:
+      spec: maximumSize=500,expireAfterWrite=300s
+
+server:
+  port: 8080
+
+stock-api:
+  alphavantage:
+    api-key: ${ALPHA_VANTAGE_API_KEY:demo}
+    base-url: https://www.alphavantage.co/query
+  kis:
+    app-key: ${KIS_APP_KEY:}
+    app-secret: ${KIS_APP_SECRET:}
+    base-url: https://openapi.koreainvestment.com:9443
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
