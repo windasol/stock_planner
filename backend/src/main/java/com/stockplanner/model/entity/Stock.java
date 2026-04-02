@@ -7,7 +7,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "stocks")
+@Table(name = "stocks", uniqueConstraints = @UniqueConstraint(columnNames = {"ticker", "market"}))
 @Getter
 @Setter
 @NoArgsConstructor
@@ -19,7 +19,7 @@ public class Stock {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true, length = 20)
+    @Column(nullable = false, length = 20)
     private String ticker;
 
     @Column(nullable = false)
