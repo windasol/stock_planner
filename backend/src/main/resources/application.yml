@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/stock_planner
     username: postgres
-    password: ${DB_PASSWORD:stockplanner123}
+    password: stockplanner123
   jpa:
     hibernate:
       ddl-auto: update

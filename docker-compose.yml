@@ -7,7 +7,7 @@ services:
     environment:
       POSTGRES_DB: stock_planner
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: stockplanner123
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-stockplanner123}
     ports:
       - "5432:5432"
     volumes:
