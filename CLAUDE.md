@@ -63,7 +63,7 @@ stock_planner/
 - [x] Phase 1: Project setup (Spring Boot + React + Docker + Git)
 - [x] Phase 2: Backend full (Entity, Repository, Service, Controller, API clients)
 - [x] Phase 3: Frontend components (charts, search, stock detail, portfolio components)
-- [ ] Phase 4: PortfolioPage.tsx 조합 (컴포넌트는 완성, 페이지 미연결)
+- [x] Phase 4: PortfolioPage.tsx 조합 (컴포넌트는 완성, 페이지 미연결)
 - [ ] Phase 5: WatchlistPage.tsx + DashboardPage.tsx 구현
 - [ ] Phase 6: ErrorBoundary, 반응형, 테스트
 
