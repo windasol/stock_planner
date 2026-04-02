@@ -1,6 +1,6 @@
 import { Box, Typography, Chip } from '@mui/material';
 import { TrendingUp, TrendingDown } from '@mui/icons-material';
-import { Stock } from '../../types/stock';
+import type { Stock } from '../../types/stock';
 import { formatCurrency, formatPercent, formatMarketCap } from '../../utils/formatters';
 
 interface StockInfoProps {

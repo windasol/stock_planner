@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { portfolioApi } from '../api/portfolioApi';
-import { CreatePortfolioRequest, AddHoldingRequest } from '../types/portfolio';
+import type { CreatePortfolioRequest, AddHoldingRequest } from '../types/portfolio';
 import { QUERY_STALE_TIME } from '../utils/constants';
 
 export function usePortfolios() {

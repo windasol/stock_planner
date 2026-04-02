@@ -1,6 +1,6 @@
 import { ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { CHART_INTERVALS } from '../../utils/constants';
-import { ChartInterval } from '../../types/chart';
+import type { ChartInterval } from '../../types/chart';
 
 interface ChartControlsProps {
   selected: ChartInterval;

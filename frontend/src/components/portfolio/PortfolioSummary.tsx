@@ -1,6 +1,6 @@
 import { Card, CardContent, Typography, Box } from '@mui/material';
 import { TrendingUp, TrendingDown } from '@mui/icons-material';
-import { Portfolio } from '../../types/portfolio';
+import type { Portfolio } from '../../types/portfolio';
 import { formatCurrency, formatPercent } from '../../utils/formatters';
 
 interface PortfolioSummaryProps {

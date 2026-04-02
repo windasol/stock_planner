@@ -1,5 +1,5 @@
 import { Grid } from '@mui/material';
-import { StockSearchResult } from '../../types/stock';
+import type { StockSearchResult } from '../../types/stock';
 import StockCard from './StockCard';
 
 interface StockSearchResultsProps {

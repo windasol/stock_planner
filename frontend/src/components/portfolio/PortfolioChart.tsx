@@ -1,6 +1,6 @@
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import { Paper, Typography } from '@mui/material';
-import { Holding } from '../../types/portfolio';
+import type { Holding } from '../../types/portfolio';
 
 const COLORS = ['#e94560', '#0a1931', '#185adb', '#ffc93c', '#ff6b6b', '#6c5ce7', '#00cec9', '#fd79a8'];
 

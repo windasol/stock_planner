@@ -1,7 +1,8 @@
 import { useEffect, useRef } from 'react';
-import { createChart, ColorType, IChartApi } from 'lightweight-charts';
+import { createChart, ColorType } from 'lightweight-charts';
+import type { IChartApi } from 'lightweight-charts';
 import { Box } from '@mui/material';
-import { CandlestickData } from '../../types/chart';
+import type { CandlestickData } from '../../types/chart';
 
 interface VolumeChartProps {
   data: CandlestickData[];

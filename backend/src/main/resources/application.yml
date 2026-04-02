@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/stock_planner
+    url: jdbc:postgresql://localhost:5433/stock_planner
     username: postgres
     password: stockplanner123
   jpa:
@@ -16,7 +16,7 @@ spring:
       spec: maximumSize=500,expireAfterWrite=300s
 
 server:
-  port: 8080
+  port: 8081
 
 stock-api:
   alphavantage:
