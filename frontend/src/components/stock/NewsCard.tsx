@@ -1,6 +1,6 @@
 import { Box, Chip, Link, Typography } from '@mui/material';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import { NewsItem } from '../../types/news';
+import type { NewsItem } from '../../types/news';
 
 interface Props {
   news: NewsItem;

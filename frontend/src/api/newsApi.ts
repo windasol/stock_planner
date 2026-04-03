@@ -1,5 +1,5 @@
 import axiosInstance from './axiosInstance';
-import { NewsItem } from '../types/news';
+import type { NewsItem } from '../types/news';
 
 export const newsApi = {
   search: async (keyword: string, market?: string, limit = 20) => {
