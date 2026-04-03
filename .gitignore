@@ -22,6 +22,7 @@ frontend/.env.production
 # Environment
 .env
 *.env
+backend/src/main/resources/application-local.yml
 
 # OS
 .DS_Store
