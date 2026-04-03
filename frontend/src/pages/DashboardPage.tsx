@@ -1,16 +1,25 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Box, Container, Typography, Grid, Card, CardContent,
   Chip, CircularProgress, Alert, Divider, Button,
+  Paper, TextField, InputAdornment, IconButton,
+  ToggleButton, ToggleButtonGroup, Stack,
 } from '@mui/material';
 import { TrendingUp, TrendingDown, ArrowForward } from '@mui/icons-material';
+import SearchIcon from '@mui/icons-material/Search';
 import { useQuery } from '@tanstack/react-query';
 import SearchBar from '../components/common/SearchBar';
+import NewsCard from '../components/stock/NewsCard';
+import LoadingSpinner from '../components/common/LoadingSpinner';
 import { marketApi } from '../api/marketApi';
 import { useWatchlist } from '../hooks/useWatchlist';
 import { usePortfolios } from '../hooks/usePortfolio';
+import { useNews } from '../hooks/useNews';
 import { formatCurrency, formatPercent } from '../utils/formatters';
 import { QUERY_STALE_TIME } from '../utils/constants';
+
+const HOT_KEYWORDS = ['금리', '반도체', 'AI', '환율', '삼성전자', 'NVIDIA', '원자재', '코스피'];
 
 function ChangeLabel({ value }: { value: number }) {
   const isPositive = value >= 0;
@@ -33,6 +42,9 @@ function ChangeLabel({ value }: { value: number }) {
 
 export default function DashboardPage() {
   const navigate = useNavigate();
+  const [keyword, setKeyword] = useState('');
+  const [inputValue, setInputValue] = useState('');
+  const [newsMarket, setNewsMarket] = useState<string>('');
 
   const { data: indices, isLoading: indicesLoading, isError: indicesError } = useQuery({
     queryKey: ['marketIndices'],
@@ -42,6 +54,17 @@ export default function DashboardPage() {
 
   const { data: watchlist } = useWatchlist();
   const { data: portfolios } = usePortfolios();
+  const { data: news, isLoading: newsLoading, error: newsError } = useNews(keyword, newsMarket || undefined, 15);
+
+  const handleSearch = () => {
+    const trimmed = inputValue.trim();
+    if (trimmed) setKeyword(trimmed);
+  };
+
+  const handleHotKeyword = (kw: string) => {
+    setInputValue(kw);
+    setKeyword(kw);
+  };
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
@@ -205,6 +228,82 @@ export default function DashboardPage() {
           )}
         </Grid>
       </Grid>
+
+      <Divider sx={{ my: 3 }} />
+
+      {/* 핫이슈 뉴스 검색 */}
+      <Paper sx={{ p: 3 }}>
+        <Typography variant="h6" fontWeight={600} gutterBottom>
+          핫이슈 뉴스 검색
+        </Typography>
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+          키워드를 입력하거나 핫이슈를 클릭하면 관련 뉴스를 불러옵니다.
+        </Typography>
+
+        <Box sx={{ display: 'flex', gap: 1, mb: 2 }}>
+          <TextField
+            fullWidth
+            size="small"
+            placeholder="키워드 입력 (예: 금리, 반도체, AAPL ...)"
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            onKeyDown={(e) => { if (e.key === 'Enter') handleSearch(); }}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton size="small" onClick={handleSearch}>
+                    <SearchIcon fontSize="small" />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+          <ToggleButtonGroup
+            value={newsMarket}
+            exclusive
+            onChange={(_, v) => setNewsMarket(v ?? '')}
+            size="small"
+          >
+            <ToggleButton value="" sx={{ fontSize: '0.75rem', px: 1.5 }}>전체</ToggleButton>
+            <ToggleButton value="US" sx={{ fontSize: '0.75rem', px: 1.5 }}>미국</ToggleButton>
+            <ToggleButton value="KR" sx={{ fontSize: '0.75rem', px: 1.5 }}>한국</ToggleButton>
+          </ToggleButtonGroup>
+        </Box>
+
+        <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap sx={{ mb: 3 }}>
+          {HOT_KEYWORDS.map((kw) => (
+            <Chip
+              key={kw}
+              label={kw}
+              size="small"
+              clickable
+              color={keyword === kw ? 'primary' : 'default'}
+              onClick={() => handleHotKeyword(kw)}
+            />
+          ))}
+        </Stack>
+
+        {!keyword && (
+          <Typography variant="body2" color="text.disabled" textAlign="center" sx={{ py: 4 }}>
+            키워드를 입력하거나 위 핫이슈를 클릭해보세요.
+          </Typography>
+        )}
+        {keyword && newsLoading && <LoadingSpinner message="뉴스를 불러오는 중..." />}
+        {keyword && newsError && <Alert severity="error">뉴스를 불러올 수 없습니다.</Alert>}
+        {keyword && !newsLoading && news && news.length === 0 && (
+          <Alert severity="info">"{keyword}" 관련 뉴스가 없습니다.</Alert>
+        )}
+        {keyword && !newsLoading && news && news.length > 0 && (
+          <Box>
+            <Typography variant="caption" color="text.secondary" sx={{ mb: 1, display: 'block' }}>
+              "{keyword}" 검색 결과 {news.length}건
+            </Typography>
+            {news.map((item, idx) => (
+              <NewsCard key={`${item.url}-${idx}`} news={item} />
+            ))}
+          </Box>
+        )}
+      </Paper>
     </Container>
   );
 }
