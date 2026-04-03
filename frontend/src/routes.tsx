@@ -5,6 +5,7 @@ import StockDetailPage from './pages/StockDetailPage';
 import SearchPage from './pages/SearchPage';
 import PortfolioPage from './pages/PortfolioPage';
 import WatchlistPage from './pages/WatchlistPage';
+import CalendarPage from './pages/CalendarPage';
 
 export const router = createBrowserRouter([
   {
@@ -16,6 +17,7 @@ export const router = createBrowserRouter([
       { path: 'search', element: <SearchPage /> },
       { path: 'portfolio', element: <PortfolioPage /> },
       { path: 'watchlist', element: <WatchlistPage /> },
+      { path: 'calendar', element: <CalendarPage /> },
     ],
   },
 ]);

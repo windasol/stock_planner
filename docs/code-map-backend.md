@@ -23,6 +23,8 @@
 | `controller/MarketController.java` | getIndices | GET /api/market/indices (stub) | 16–25 |
 | | getTopMovers | GET /api/market/movers (stub) | 27–31 |
 | | getSectors | GET /api/market/sectors (stub) | 33–37 |
+| `controller/CalendarController.java` | getEconomicCalendar | GET /api/calendar/economic | 20–26 |
+| | getStockEvents | GET /api/calendar/stock/{symbol} | 33–41 |
 
 ---
 
@@ -47,6 +49,8 @@
 | | delete | 39–41 | |
 | | toDto | 43–56 | |
 | `service/ChartService.java` | getChartData | 28–70 | DB캐시(35–42) → 외부API(45–51) → DB저장(54–69) |
+| `service/CalendarService.java` | getEconomicCalendar | 22–28 | from/to 기본값 적용 후 FinnhubClient 위임 |
+| | getStockEvents | 34–50 | 실적+배당+분할 통합 후 날짜 정렬 |
 
 ---
 
@@ -64,6 +68,10 @@
 | `service/external/KisClient.java` | fetchQuote | 40–55 | KR stub (TODO) |
 | | fetchDailyPrices | 56–63 | |
 | | searchStocks | 65–70 | |
+| `service/external/FmpClient.java` | fetchEconomicCalendar | 44–70 | FMP API, Caffeine 캐시 1h |
+| `service/external/FinnhubClient.java` | fetchEarningsCalendar | 43–79 | Caffeine 캐시 1h |
+| | fetchDividendCalendar | 86–113 | Caffeine 캐시 1h |
+| | fetchSplitCalendar | 120–145 | Caffeine 캐시 1h |
 
 ---
 
@@ -110,6 +118,8 @@
 | `model/dto/CreatePortfolioRequest.java` | 11–12 | |
 | `model/dto/AddHoldingRequest.java` | 12–24 | |
 | `model/dto/AddWatchlistRequest.java` | 11–17 | |
+| `model/dto/EconomicEventDto.java` | 8–18 | 경제 캘린더 이벤트 |
+| `model/dto/StockEventDto.java` | 8–29 | 종목별 이벤트 (실적/배당/분할) |
 
 ---
 

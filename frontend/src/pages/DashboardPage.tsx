@@ -19,7 +19,7 @@ import { useNews } from '../hooks/useNews';
 import { formatCurrency, formatPercent } from '../utils/formatters';
 import { QUERY_STALE_TIME } from '../utils/constants';
 
-const HOT_KEYWORDS = ['금리', '반도체', 'AI', '환율', '삼성전자', 'NVIDIA', '원자재', '코스피'];
+const HOT_KEYWORDS = ['금리', '반도체', '환율', '삼성전자', '코스피', '원자재', 'SK하이닉스', '인플레이션'];
 
 function ChangeLabel({ value }: { value: number }) {
   const isPositive = value >= 0;
@@ -265,7 +265,6 @@ export default function DashboardPage() {
             size="small"
           >
             <ToggleButton value="" sx={{ fontSize: '0.75rem', px: 1.5 }}>전체</ToggleButton>
-            <ToggleButton value="US" sx={{ fontSize: '0.75rem', px: 1.5 }}>미국</ToggleButton>
             <ToggleButton value="KR" sx={{ fontSize: '0.75rem', px: 1.5 }}>한국</ToggleButton>
           </ToggleButtonGroup>
         </Box>

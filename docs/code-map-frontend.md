@@ -20,6 +20,8 @@
 | `types/chart.ts` | `CandlestickData` | 1 |
 | | `VolumeData` | 9 |
 | | `ChartInterval` | 15 |
+| `types/calendar.ts` | `EconomicEvent` | 1 |
+| | `StockEvent` | 14 |
 
 ---
 
@@ -47,6 +49,8 @@
 | | `TopMover` (interface) | — | 10 |
 | | `SectorPerformance` (interface) | — | 18 |
 | | `marketApi` | API 메서드 | 24–38 |
+| `api/calendarApi.ts` | `calendarApi` | getEconomicCalendar | 5 |
+| | | getStockEvents | 12 |
 
 ---
 
@@ -66,6 +70,8 @@
 | `hooks/useWatchlist.ts` | `useWatchlist` | 6 |
 | | `useAddToWatchlist` | 14 |
 | | `useRemoveFromWatchlist` | 22 |
+| `hooks/useCalendar.ts` | `useEconomicCalendar` | 6 |
+| | `useStockEvents` | 14 |
 
 ---
 
@@ -88,6 +94,8 @@
 | `pages/WatchlistPage.tsx` | `WatchlistPage` | 핸들러 | 25–43 |
 | | | 테이블 | 75–142 |
 | | | 추가 모달 | 144–185 |
+| `pages/CalendarPage.tsx` | `CalendarPage` | 탭(글로벌/종목별) | 49–90 |
+| | `getDateRange` | 날짜 범위 계산 | 14–37 |
 
 ---
 
@@ -98,6 +106,16 @@
 | `components/common/Navbar.tsx` | `Navbar` | 11 |
 | `components/common/SearchBar.tsx` | `SearchBar` | 6 |
 | `components/common/LoadingSpinner.tsx` | `LoadingSpinner` | 7 |
+
+---
+
+## components/calendar/
+
+| 파일 | export | 줄 |
+|------|--------|----|
+| `components/calendar/ImpactBadge.tsx` | `ImpactBadge` | 14 |
+| `components/calendar/EconomicCalendar.tsx` | `EconomicCalendar` | 50 |
+| `components/calendar/StockEventCalendar.tsx` | `StockEventCalendar` | 103 |
 
 ---
 

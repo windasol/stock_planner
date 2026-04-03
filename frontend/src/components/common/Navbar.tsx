@@ -1,11 +1,12 @@
 import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
-import { ShowChart, AccountBalance, Star, Dashboard } from '@mui/icons-material';
+import { ShowChart, AccountBalance, Star, Dashboard, CalendarMonth } from '@mui/icons-material';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const navItems = [
   { label: '대시보드', path: '/', icon: <Dashboard /> },
   { label: '포트폴리오', path: '/portfolio', icon: <AccountBalance /> },
   { label: '관심종목', path: '/watchlist', icon: <Star /> },
+  { label: '캘린더', path: '/calendar', icon: <CalendarMonth /> },
 ];
 
 export default function Navbar() {
