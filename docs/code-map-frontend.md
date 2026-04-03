@@ -20,6 +20,7 @@
 | `types/chart.ts` | `CandlestickData` | 1 |
 | | `VolumeData` | 9 |
 | | `ChartInterval` | 15 |
+| `types/news.ts` | `NewsItem` | 1 |
 
 ---
 
@@ -46,7 +47,10 @@
 | `api/marketApi.ts` | `MarketIndex` (interface) | — | 3 |
 | | `TopMover` (interface) | — | 10 |
 | | `SectorPerformance` (interface) | — | 18 |
-| | `marketApi` | API 메서드 | 24–38 |
+| | `marketApi` | getIndices | 23–28 |
+| | | getTopMovers | 29–34 |
+| | | getSectors | 35–38 |
+| `api/newsApi.ts` | `newsApi` | search | 4–8 |
 
 ---
 
@@ -66,6 +70,7 @@
 | `hooks/useWatchlist.ts` | `useWatchlist` | 6 |
 | | `useAddToWatchlist` | 14 |
 | | `useRemoveFromWatchlist` | 22 |
+| `hooks/useNews.ts` | `useNews` | 6 |
 
 ---
 
@@ -73,21 +78,18 @@
 
 | 파일 | export | 주요 섹션 | 줄 |
 |------|--------|----------|----|
-| `pages/DashboardPage.tsx` | `DashboardPage` | 시장 지수 | 62–92 |
-| | | 관심종목 미리보기 | 97–145 |
-| | | 포트폴리오 미리보기 | 147–207 |
-| | `ChangeLabel` (내부) | — | 15 |
-| `pages/SearchPage.tsx` | `SearchPage` | 검색 입력 | 19–33 |
-| | | 결과 표시 | 41–44 |
-| `pages/PortfolioPage.tsx` | `PortfolioPage` | 탭 구성 | 81–102 |
-| | | 보유 관리 | 104–119 |
-| | | 포트폴리오 생성 | 130–152 |
-| `pages/StockDetailPage.tsx` | `StockDetailPage` | 날짜 범위 계산 | 13–24 |
-| | | 상세 표시 | 38–56 |
-| | `getDateRange` | — | 13 |
-| `pages/WatchlistPage.tsx` | `WatchlistPage` | 핸들러 | 25–43 |
-| | | 테이블 | 75–142 |
-| | | 추가 모달 | 144–185 |
+| `pages/DashboardPage.tsx` | `HOT_KEYWORDS` (내부) | — | 22 |
+| | `ChangeLabel` (내부) | — | 24 |
+| | `DashboardPage` | 시장 지수 | 84–115 |
+| | | 관심종목 미리보기 | 119–168 |
+| | | 포트폴리오 미리보기 | 170–230 |
+| | | 핫이슈 뉴스 검색 | 234–306 |
+| `pages/SearchPage.tsx` | `SearchPage` | — | 10 |
+| `pages/PortfolioPage.tsx` | `PortfolioPage` | — | 17 |
+| `pages/StockDetailPage.tsx` | `getDateRange` | — | 14 |
+| | `StockDetailPage` | 차트 탭 | 50–66 |
+| | | 뉴스 탭 | 68–70 |
+| `pages/WatchlistPage.tsx` | `WatchlistPage` | — | 14 |
 
 ---
 
@@ -111,6 +113,10 @@
 | | `StockInfo` | 10 |
 | `components/stock/StockSearchResults.tsx` | `StockSearchResultsProps` | 5 |
 | | `StockSearchResults` | 9 |
+| `components/stock/StockNews.tsx` | `StockNews` | 13 |
+| `components/stock/NewsCard.tsx` | `getSentimentColor` | 9 |
+| | `getSentimentLabel` | 17 |
+| | `NewsCard` | 29 |
 
 ---
 

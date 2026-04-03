@@ -8,21 +8,22 @@
 
 | 파일 | 메서드 | HTTP | 줄 |
 |------|--------|------|----|
-| `controller/StockController.java` | search | GET /api/stocks/search | 18–23 |
-| | getStock | GET /api/stocks/{market}/{ticker} | 25–30 |
-| `controller/PortfolioController.java` | getAll | GET /api/portfolios | 19–21 |
-| | getById | GET /api/portfolios/{id} | 24–26 |
-| | create | POST /api/portfolios | 29–32 |
-| | delete | DELETE /api/portfolios/{id} | 35–38 |
-| | addHolding | POST /api/portfolios/{id}/holdings | 41–46 |
-| | deleteHolding | DELETE /api/portfolios/{id}/holdings/{hId} | 49–55 |
-| `controller/WatchlistController.java` | getAll | GET /api/watchlist | 20–22 |
-| | add | POST /api/watchlist | 25–28 |
-| | delete | DELETE /api/watchlist/{id} | 31–34 |
-| `controller/ChartController.java` | getChartData | GET /api/charts/{market}/{ticker} | 17–25 |
-| `controller/MarketController.java` | getIndices | GET /api/market/indices (stub) | 16–25 |
-| | getTopMovers | GET /api/market/movers (stub) | 27–31 |
-| | getSectors | GET /api/market/sectors (stub) | 33–37 |
+| `controller/StockController.java` | search | GET /api/stocks/search | 19 |
+| | getStock | GET /api/stocks/{market}/{ticker} | 26 |
+| `controller/PortfolioController.java` | getAll | GET /api/portfolios | 20 |
+| | getById | GET /api/portfolios/{id} | 25 |
+| | create | POST /api/portfolios | 31 |
+| | delete | DELETE /api/portfolios/{id} | 37 |
+| | addHolding | POST /api/portfolios/{id}/holdings | 43 |
+| | deleteHolding | DELETE /api/portfolios/{id}/holdings/{hId} | 51 |
+| `controller/WatchlistController.java` | getAll | GET /api/watchlist | 21 |
+| | add | POST /api/watchlist | 27 |
+| | delete | DELETE /api/watchlist/{id} | 33 |
+| `controller/ChartController.java` | getChartData | GET /api/charts/{market}/{ticker} | 18 |
+| `controller/MarketController.java` | getIndices | GET /api/market/indices (stub) | 17 |
+| | getTopMovers | GET /api/market/movers (stub) | 28 |
+| | getSectors | GET /api/market/sectors (stub) | 34 |
+| `controller/NewsController.java` | search | GET /api/news/search | 24 |
 
 ---
 
@@ -30,23 +31,20 @@
 
 | 파일 | 메서드 | 줄 | 비고 |
 |------|--------|-----|------|
-| `service/StockService.java` | getStock | 27–40 | DB → 외부API fallback |
-| | search | 42–80 | 검색 + DB 보완 |
-| | getOrCreateStock | 82–97 | |
-| | toDto | 113–125 | Entity → DTO 변환 |
-| `service/PortfolioService.java` | getAll | 26–30 | |
-| | getById | 32–34 | |
-| | create | 36–42 | |
-| | delete | 44–47 | |
-| | addHolding | 49–63 | |
-| | deleteHolding | 65–70 | |
-| | toDto (portfolio) | 74–95 | |
-| | toDto (holding) | 97–119 | |
-| `service/WatchlistService.java` | getAll | 22–27 | |
-| | add | 29–37 | |
-| | delete | 39–41 | |
-| | toDto | 43–56 | |
-| `service/ChartService.java` | getChartData | 28–70 | DB캐시(35–42) → 외부API(45–51) → DB저장(54–69) |
+| `service/StockService.java` | getStock | 24 | API 최신가 + DB 메타 병합 |
+| | search | 39 | DB 검색 → API 보완 |
+| | getOrCreateStock | 66 | |
+| `service/PortfolioService.java` | getAll | 26 | |
+| | getById | 32 | |
+| | create | 36 | |
+| | delete | 44 | |
+| | addHolding | 49 | |
+| | deleteHolding | 65 | |
+| `service/WatchlistService.java` | getAll | 22 | |
+| | add | 29 | |
+| | delete | 39 | |
+| `service/ChartService.java` | getChartData | 25 | |
+| `service/NewsService.java` | searchNews | 25 | US/KR 뉴스 클라이언트 라우팅 |
 
 ---
 
@@ -57,13 +55,18 @@
 | `service/external/StockApiClient.java` | fetchQuote | 10 | interface |
 | | fetchDailyPrices | 12 | interface |
 | | searchStocks | 14 | interface |
-| `service/external/AlphaVantageClient.java` | fetchQuote | 37–59 | US 구현체 |
-| | fetchDailyPrices | 63–99 | |
-| | searchStocks | 103–128 | |
-| | 파싱 헬퍼 | 130–156 | |
-| `service/external/KisClient.java` | fetchQuote | 40–55 | KR stub (TODO) |
-| | fetchDailyPrices | 56–63 | |
-| | searchStocks | 65–70 | |
+| `service/external/TwelveDataClient.java` | fetchQuote | 39 | US/KR 구현체 (Caffeine 캐시) |
+| | fetchTimeSeries | 80 | |
+| | searchStocks | 121 | |
+| `service/external/KisClient.java` | fetchQuote | 40 | KR stub (TODO, 캐시) |
+| | fetchDailyPrices | 56 | |
+| | searchStocks | 65 | |
+| `service/external/NewsApiClient.java` | fetchNewsByKeyword | 8 | interface |
+| | getSupportedMarket | 9 | interface |
+| `service/external/AlphaVantageNewsClient.java` | getSupportedMarket | 39 | US 뉴스 구현체 (캐시) |
+| | fetchNewsByKeyword | 45 | |
+| `service/external/NaverNewsClient.java` | getSupportedMarket | 55 | KR 뉴스 구현체 (캐시) |
+| | fetchNewsByKeyword | 61 | |
 
 ---
 
@@ -110,6 +113,7 @@
 | `model/dto/CreatePortfolioRequest.java` | 11–12 | |
 | `model/dto/AddHoldingRequest.java` | 12–24 | |
 | `model/dto/AddWatchlistRequest.java` | 11–17 | |
+| `model/dto/NewsDto.java` | — | 뉴스 항목 DTO |
 
 ---
 
@@ -140,6 +144,8 @@
 
 | 파일 | 역할 | 줄 |
 |------|------|----|
-| `config/WebConfig.java` | CORS (localhost:5173 허용) | 11–16 |
-| `config/RestTemplateConfig.java` | RestTemplate bean | 11–13 |
-| `StockPlannerApplication.java` | 앱 진입점 (@EnableCaching) | 9–14 |
+| `config/WebConfig.java` | CORS (localhost:5173 허용) | 11 |
+| `config/RestTemplateConfig.java` | RestTemplate bean | 17 |
+| `config/CacheConfig.java` | Caffeine CacheManager bean | 17 |
+| `config/KoreanStockSeeder.java` | ApplicationRunner (한국 종목 시드) | 76 |
+| `StockPlannerApplication.java` | 앱 진입점 (@EnableCaching) | 11 |
