@@ -1,6 +1,5 @@
 package com.stockplanner.service;
 
-import com.stockplanner.exception.StockNotFoundException;
 import com.stockplanner.model.dto.SearchResultDto;
 import com.stockplanner.model.dto.StockDto;
 import com.stockplanner.model.entity.Stock;
