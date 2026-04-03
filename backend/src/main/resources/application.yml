@@ -25,7 +25,9 @@ stock-api:
   kis:
     app-key: ${KIS_APP_KEY:}
     app-secret: ${KIS_APP_SECRET:}
-    base-url: https://openapi.koreainvestment.com:9443
+    # 실전: https://openapi.koreainvestment.com:9443
+    # 모의: https://openapivts.koreainvestment.com:29443
+    base-url: ${KIS_BASE_URL:https://openapivts.koreainvestment.com:29443}
 
 springdoc:
   api-docs:
