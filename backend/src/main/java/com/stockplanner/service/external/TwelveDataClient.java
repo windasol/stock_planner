@@ -27,6 +27,7 @@ public class TwelveDataClient {
         this.restTemplate = restTemplate;
         this.apiKey = apiKey;
         this.baseUrl = baseUrl;
+        log.info("TwelveDataClient initialized with api-key: {}***", apiKey.length() > 4 ? apiKey.substring(0, 4) : "????");
     }
 
     /**
