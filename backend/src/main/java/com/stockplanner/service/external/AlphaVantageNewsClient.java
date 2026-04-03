@@ -43,6 +43,10 @@ public class AlphaVantageNewsClient implements NewsApiClient {
     @Override
     @Cacheable(value = "usNews", key = "#keyword + '-' + #limit")
     public List<NewsDto> fetchNewsByKeyword(String keyword, int limit) {
+        if (containsKorean(keyword)) {
+            log.debug("AlphaVantage does not support Korean keyword, skipping: {}", keyword);
+            return List.of();
+        }
         // tickers 파라미터로 ticker 검색, topics로 글로벌 이슈 검색 모두 지원
         String url = String.format(
                 "%s?function=NEWS_SENTIMENT&tickers=%s&limit=%d&sort=LATEST&apikey=%s",
@@ -73,6 +77,10 @@ public class AlphaVantageNewsClient implements NewsApiClient {
             log.error("Error fetching US news for keyword {}: {}", keyword, e.getMessage());
             return List.of();
         }
+    }
+
+    private boolean containsKorean(String text) {
+        return text != null && text.chars().anyMatch(c -> c >= 0xAC00 && c <= 0xD7A3);
     }
 
     private String getText(JsonNode node, String field) {

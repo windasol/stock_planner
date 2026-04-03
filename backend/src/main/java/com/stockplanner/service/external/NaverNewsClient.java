@@ -9,6 +9,9 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import jakarta.annotation.PostConstruct;
+import java.net.URI;
+import org.springframework.web.util.UriComponentsBuilder;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -41,6 +44,13 @@ public class NaverNewsClient implements NewsApiClient {
         this.baseUrl = baseUrl;
     }
 
+    @PostConstruct
+    private void init() {
+        if (clientId.isBlank() || clientSecret.isBlank()) {
+            log.warn("Naver API credentials not configured (stock-api.naver.client-id/client-secret). KR news fetch will be skipped.");
+        }
+    }
+
     @Override
     public String getSupportedMarket() {
         return "KR";
@@ -50,11 +60,16 @@ public class NaverNewsClient implements NewsApiClient {
     @Cacheable(value = "krNews", key = "#keyword + '-' + #limit")
     public List<NewsDto> fetchNewsByKeyword(String keyword, int limit) {
         if (clientId.isBlank() || clientSecret.isBlank()) {
-            log.warn("Naver API credentials not configured. Skipping KR news fetch.");
+            log.debug("Naver API credentials not configured. Skipping KR news fetch.");
             return List.of();
         }
-        String url = String.format("%s/news.json?query=%s&display=%d&sort=date",
-                baseUrl, keyword, Math.min(limit, 100));
+        URI url = UriComponentsBuilder.fromHttpUrl(baseUrl + "/news.json")
+                .queryParam("query", keyword)
+                .queryParam("display", Math.min(limit, 100))
+                .queryParam("sort", "date")
+                .build()
+                .encode()
+                .toUri();
         try {
             HttpHeaders headers = new HttpHeaders();
             headers.set("X-Naver-Client-Id", clientId);

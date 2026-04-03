@@ -13,7 +13,7 @@ interface Props {
 export default function StockNews({ ticker, market, stockName }: Props) {
   const [selectedMarket, setSelectedMarket] = useState<string>(market);
 
-  const keyword = stockName ? stockName : ticker;
+  const keyword = market === 'KR' ? (stockName || ticker) : ticker;
   const { data: news, isLoading, error } = useNews(keyword, selectedMarket, 20);
 
   return (
