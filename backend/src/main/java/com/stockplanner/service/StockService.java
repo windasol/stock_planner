@@ -1,6 +1,5 @@
 package com.stockplanner.service;
 
-import com.stockplanner.exception.StockNotFoundException;
 import com.stockplanner.model.dto.SearchResultDto;
 import com.stockplanner.model.dto.StockDto;
 import com.stockplanner.model.entity.Stock;
@@ -27,16 +26,29 @@ public class StockService {
     public StockDto getStock(String market, String ticker) {
         Market m = Market.valueOf(market.toUpperCase());
 
-        // 1. DB에서 먼저 조회
-        return stockRepository.findByTickerIgnoreCaseAndMarket(ticker, m)
-                .map(this::toDto)
+        // 1. DB에서 먼저 조회 (없으면 저장)
+        Stock stock = stockRepository.findByTickerIgnoreCaseAndMarket(ticker, m)
                 .orElseGet(() -> {
-                    // 2. DB에 없으면 외부 API에서 조회
                     StockDto dto = fetchFromExternal(m, ticker);
-                    // 3. DB에 저장
-                    saveStock(dto);
-                    return dto;
+                    return saveStock(dto);
                 });
+
+        // 2. 실시간 가격 정보 조회 (캐시됨)
+        StockDto liveQuote = fetchFromExternal(m, ticker);
+
+        return StockDto.builder()
+                .id(stock.getId())
+                .ticker(stock.getTicker())
+                .name(stock.getName())
+                .sector(stock.getSector())
+                .market(stock.getMarket().name())
+                .currency(stock.getCurrency())
+                .marketCap(stock.getMarketCap())
+                .exchange(stock.getExchange())
+                .description(stock.getDescription())
+                .price(liveQuote.getPrice())
+                .changePercent(liveQuote.getChangePercent())
+                .build();
     }
 
     public List<SearchResultDto> search(String query, String market) {
@@ -110,17 +122,4 @@ public class StockService {
         return stockRepository.save(stock);
     }
 
-    private StockDto toDto(Stock stock) {
-        return StockDto.builder()
-                .id(stock.getId())
-                .ticker(stock.getTicker())
-                .name(stock.getName())
-                .sector(stock.getSector())
-                .market(stock.getMarket().name())
-                .currency(stock.getCurrency())
-                .marketCap(stock.getMarketCap())
-                .exchange(stock.getExchange())
-                .description(stock.getDescription())
-                .build();
-    }
 }
