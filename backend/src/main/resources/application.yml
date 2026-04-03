@@ -12,8 +12,6 @@ spring:
     show-sql: false
   cache:
     type: caffeine
-    caffeine:
-      spec: maximumSize=500,expireAfterWrite=300s
 
 server:
   port: 8080
@@ -26,6 +24,10 @@ stock-api:
     app-key: ${KIS_APP_KEY:}
     app-secret: ${KIS_APP_SECRET:}
     base-url: https://openapi.koreainvestment.com:9443
+  naver:
+    client-id: ${NAVER_CLIENT_ID:}
+    client-secret: ${NAVER_CLIENT_SECRET:}
+    base-url: https://openapi.naver.com/v1/search
 
 springdoc:
   api-docs:

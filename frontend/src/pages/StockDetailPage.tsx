@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Container, Paper, Box, Alert } from '@mui/material';
+import { Container, Paper, Box, Alert, Tab, Tabs } from '@mui/material';
 import StockInfo from '../components/stock/StockInfo';
 import CandlestickChart from '../components/charts/CandlestickChart';
 import VolumeChart from '../components/charts/VolumeChart';
 import ChartControls from '../components/charts/ChartControls';
+import StockNews from '../components/stock/StockNews';
 import LoadingSpinner from '../components/common/LoadingSpinner';
 import { useStock, useChartData } from '../hooks/useStock';
 import { ChartInterval } from '../types/chart';
@@ -26,6 +27,7 @@ function getDateRange(interval: ChartInterval): { from: string; to: string } {
 export default function StockDetailPage() {
   const { market = 'US', ticker = '' } = useParams<{ market: string; ticker: string }>();
   const [interval, setInterval] = useState<ChartInterval>('3M');
+  const [tab, setTab] = useState(0);
 
   const { from, to } = getDateRange(interval);
   const { data: stock, isLoading: stockLoading, error: stockError } = useStock(market, ticker);
@@ -38,20 +40,35 @@ export default function StockDetailPage() {
     <Container maxWidth="lg" sx={{ py: 4 }}>
       {stock && <StockInfo stock={stock} />}
 
-      <Paper sx={{ p: 3, mb: 3 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-          <ChartControls selected={interval} onChange={setInterval} />
+      <Paper sx={{ mb: 3 }}>
+        <Tabs value={tab} onChange={(_, v) => setTab(v)} sx={{ borderBottom: 1, borderColor: 'divider', px: 2 }}>
+          <Tab label="차트" />
+          <Tab label="뉴스" />
+        </Tabs>
+
+        <Box sx={{ p: 3 }}>
+          {tab === 0 && (
+            <>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                <ChartControls selected={interval} onChange={setInterval} />
+              </Box>
+              {chartLoading ? (
+                <LoadingSpinner message="차트 데이터 로딩 중..." />
+              ) : chartData && chartData.length > 0 ? (
+                <>
+                  <CandlestickChart data={chartData} />
+                  <VolumeChart data={chartData} />
+                </>
+              ) : (
+                <Alert severity="info">차트 데이터가 없습니다.</Alert>
+              )}
+            </>
+          )}
+
+          {tab === 1 && (
+            <StockNews ticker={ticker} market={market} stockName={stock?.name} />
+          )}
         </Box>
-        {chartLoading ? (
-          <LoadingSpinner message="차트 데이터 로딩 중..." />
-        ) : chartData && chartData.length > 0 ? (
-          <>
-            <CandlestickChart data={chartData} />
-            <VolumeChart data={chartData} />
-          </>
-        ) : (
-          <Alert severity="info">차트 데이터가 없습니다.</Alert>
-        )}
       </Paper>
     </Container>
   );
