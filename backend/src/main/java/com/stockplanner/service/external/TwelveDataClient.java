@@ -1,7 +1,6 @@
 package com.stockplanner.service.external;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.stockplanner.exception.ExternalApiException;
 import com.stockplanner.model.dto.ChartDataDto;
 import com.stockplanner.model.dto.StockDto;
 import lombok.extern.slf4j.Slf4j;
@@ -43,7 +42,7 @@ public class TwelveDataClient {
             JsonNode res = restTemplate.getForObject(url, JsonNode.class);
             if (res == null || res.has("code")) {
                 log.warn("TwelveData quote error for {}: {}", symbol, res);
-                throw new ExternalApiException("Failed to fetch quote for " + ticker);
+                return stubQuote(ticker, market);
             }
             return StockDto.builder()
                     .ticker(ticker)
@@ -54,12 +53,22 @@ public class TwelveDataClient {
                     .price(dbl(res, "close"))
                     .changePercent(dbl(res, "percent_change"))
                     .build();
-        } catch (ExternalApiException e) {
-            throw e;
         } catch (Exception e) {
             log.error("Error fetching quote for {}: {}", symbol, e.getMessage());
-            throw new ExternalApiException("Failed to fetch quote for " + ticker, e);
+            return stubQuote(ticker, market);
         }
+    }
+
+    private StockDto stubQuote(String ticker, String market) {
+        return StockDto.builder()
+                .ticker(ticker)
+                .name(ticker)
+                .market(market)
+                .currency("KR".equals(market) ? "KRW" : "USD")
+                .exchange("")
+                .price(0)
+                .changePercent(0)
+                .build();
     }
 
     /**
